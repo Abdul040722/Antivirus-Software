@@ -120,4 +120,4 @@ maldefender/
 - Be cautious with files from unknown sources  
 - Backup data before quarantining  
 - Regularly update your OS and app  
-- Contribute new malware hashes to strengthen detection  
+- Contribute new malware hashes to strengthen detection in the system  
