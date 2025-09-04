@@ -7,8 +7,8 @@ from pathlib import Path
 
 class Config:
     def __init__(self):
-        self.app_name = "MalDefender Pro"
-        self.version = "2.0"
+        self.app_name = "Malve Pro"
+        self.version = "4.0"
         
         # Paths - OS agnostic
         if platform.system() == "Windows":
