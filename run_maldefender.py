@@ -89,12 +89,13 @@ def main():
                 app_gui = AntivirusGUI(root)
                 # Logger is initialized within AntivirusGUI
                 app_gui.logger.log(f"{config.app_name} GUI started.", "INFO")
-                if config.realtime_enabled: # Check if config has it enabled by default
+                # Real-time (and behavior monitor) are handled inside AntivirusGUI.__init__ via _enable_rt.
+                # Only refresh the status display here to avoid double-starting the monitor and losing behavior hooks.
+                if config.realtime_enabled:
                     try:
-                        app_gui.scanner.start_realtime_protection()
                         app_gui.update_realtime_status_display()
                     except Exception as e:
-                        app_gui.logger.log(f"Failed to auto-start real-time protection: {e}", "ERROR")
+                        app_gui.logger.log(f"Failed to update real-time status: {e}", "ERROR")
                 
                 root.mainloop()
                 # Cleanup is handled by AntivirusGUI.on_closing -> cleanup_and_destroy

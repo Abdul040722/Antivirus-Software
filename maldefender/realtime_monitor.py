@@ -4,7 +4,12 @@ import threading
 from pathlib import Path
 from typing import List, Callable, Dict
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent, FileCreatedEvent
+from watchdog.events import (
+    FileSystemEventHandler,
+    FileModifiedEvent,
+    FileCreatedEvent,
+    FileMovedEvent,
+)
 
 from .app_config import config
 
@@ -77,6 +82,16 @@ class RealTimeMonitor(FileSystemEventHandler):
     def on_modified(self, event: FileModifiedEvent):
         if not event.is_directory:
             self._schedule_scan(Path(event.src_path))
+
+    def on_moved(self, event: FileMovedEvent):
+        """Treat a move into a monitored folder like a new file for scanning purposes."""
+        try:
+            # Prefer destination path for scanning
+            dest = Path(getattr(event, "dest_path", event.src_path))
+        except Exception:
+            dest = Path(event.src_path)
+        if not event.is_directory:
+            self._schedule_scan(dest)
 
     def start_monitoring(self, paths: List[str]):
         self.stop_monitoring()

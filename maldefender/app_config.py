@@ -19,6 +19,9 @@ class Config:
         self.base_dir.mkdir(parents=True, exist_ok=True)
         self.quarantine_dir = self.base_dir / "quarantine"
         self.signatures_file = self.base_dir / "signatures.json"
+        # Optional SQLite backend (set signatures_backend="sqlite")
+        self.signatures_backend = "json"  # or "sqlite"
+        self.signatures_sqlite_file = self.base_dir / "signatures.sqlite"
         self.log_file = self.base_dir / "malware_scan.log"
         self.config_file = self.base_dir / "config.json"
         
@@ -41,9 +44,13 @@ class Config:
 
         # YARA configuration
         self.yara_enabled: bool = True
-        # Default rules location; can be overridden by user by placing a file at this path
+        # Rules path may be a single file or a directory containing .yar/.yara files
         self.yara_rules_file = self.base_dir / "yara_rules" / "maldefender_rules.yar"
         self.yara_max_filesize_mb: int = 64  # per-file soft guard for scanning
+        self.yara_fast_mode: bool = True     # stop early per rule when matching
+
+        # Hash/reputation caching
+        self.hash_cache_size: int = 4096
 
         # Ensure rules directory exists (non-fatal if creation fails)
         try:
