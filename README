@@ -3,7 +3,7 @@
 MalDefender is a customizable antivirus software developed as part of my **SAIT capstone project**.
 This branch represents **my specific work**, separate from my teammates. The goal was to design an antivirus solution that can be **completely customized** by the user—covering GUI, CLI, real-time protection, YARA rules, and behavior monitoring.
 
-```
+``` bash
 Antivirus-Software/
 ├── run_maldefender.py
 ├── .vscode/
